@@ -25,7 +25,6 @@ var json = void 0;
 if (!(json = (0, _utils.isGhostDir)())) {
   exit(1);
 }
-console.log(json);
 
 // TODO: use a fix path and check if it already contains the latest ghost
 var ghostLatestPath = '../ghost-latest/';
@@ -36,19 +35,8 @@ _commander2.default.command('backup [backupPath]').alias('b').option('-v, --verb
   (0, _commands.backup)(backupPath, options);
 });
 
-_commander2.default.command('download').alias('d').description('downloads latest ghost').action(function () {
-  if (!which('wget')) {
-    _logger.logger.error('Sorry, this script requires wget');
-    exit(1);
-  }
-  // TODO: could be solved more intelligent
-  if (!test('-e', ghostLatestPath)) {
-    rm(ghostLatestPath);
-  }
-  mkdir(ghostLatestPath);
-  exec('wget https://ghost.org/zip/ghost-latest.zip -P ' + ghostLatestPath);
-  exec('unzip ' + ghostLatestPath + 'ghost-latest.zip -d ' + ghostLatestPath);
-  rm(ghostLatestPath + 'ghost-latest.zip');
+_commander2.default.command('download [downloadPath]').alias('d').description('downloads latest ghost').action(function (downloadPath, options) {
+  (0, _commands.download)(downloadPath, options);
 });
 
 _commander2.default.command('upgrade').alias('u').description('upgrade to latest ghost').action(function () {

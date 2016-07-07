@@ -21,10 +21,11 @@ function backup(backupPath, options) {
   if (backupPath === undefined) {
     _logger.logger.warning('backupPath is undefined so we assume you want to backup to ' + defaultPath);
     backupPath = defaultPath;
+  } else {
+    // TODO: make sure path ends with a /
   }
-  // TODO: make timestamp readable
   var timeStamp = new Date().toLocaleString().replace(' ', '_');
-  // TODO: read config and name backup according to the page name
+  // TODO: read config and name backup according to production url
   var filename = 'ghost_backup_' + timeStamp + '.tar.gz';
   if (!test('-e', backupPath)) {
     mkdir(backupPath);
