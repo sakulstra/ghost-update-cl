@@ -24,10 +24,9 @@ var json = void 0;
 
 if (!(json = (0, _utils.isGhostDir)())) {
   exit(1);
+} else {
+  _logger.logger.info('Trying to upgrade from ghost ' + json.version);
 }
-
-// TODO: use a fix path and check if it already contains the latest ghost
-var ghostLatestPath = '../ghost-latest/';
 
 _commander2.default.version(_package2.default.version);
 
@@ -39,13 +38,8 @@ _commander2.default.command('download [downloadPath]').alias('d').description('d
   (0, _commands.download)(downloadPath, options);
 });
 
-_commander2.default.command('upgrade').alias('u').description('upgrade to latest ghost').action(function () {
-  rm('-R', './core');
-  mv('../new-ghost/core', './');
-  mv('../new-ghost/index.js', './');
-  mv('../new-ghost/package.json', './');
-  mv('../new-ghost/npm-shrinkwrap.json', './');
-  exec('npm install --production');
+_commander2.default.command('upgrade [pathToLatest]').alias('u').description('upgrade to latest ghost').action(function (pathToLatest, options) {
+  (0, _commands.upgrade)(pathToLatest, options);
 });
 
 _commander2.default.parse(process.argv);
