@@ -6,7 +6,7 @@ I tried to create a cli which basically automates the upgrade process described 
 This package is pretty much hacked together - could definitely be done better, don't have to high expectations!
 
 ## Commands
-simply type `ghost-cli help` to see available commands. With no parameter provided ghost-cli will execute all commands.
+simply type `ghost-cli --help` to see available commands. With no parameter provided ghost-cli will execute all commands.
 
 ## Development
 The package is in early development and not even published on npm yet. If you want to try it, help finding bugs or even help developing it you have to do two things.
