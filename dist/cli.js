@@ -34,7 +34,7 @@ _commander2.default.command('backup [backupPath]').alias('b').option('-v, --verb
   (0, _commands.backup)(backupPath, options);
 });
 
-_commander2.default.command('download [downloadPath]').alias('d').description('downloads latest ghost').action(function (downloadPath, options) {
+_commander2.default.command('download [downloadPath]').alias('d').option('-s, --sourceUrl [url]', 'Provide an additional [sourceUrl]').option('-v, --verbose', 'show output of scripts in the console').description('downloads latest ghost').action(function (downloadPath, options) {
   (0, _commands.download)(downloadPath, options);
 });
 
@@ -42,11 +42,10 @@ _commander2.default.command('upgrade [pathToLatest]').alias('u').description('up
   (0, _commands.upgrade)(pathToLatest, options);
 });
 
-_commander2.default.parse(process.argv);
+_commander2.default.command('all').alias('a').option('-s, --sourceUrl [url]', 'Provide an additional [sourceUrl]').option('-v, --verbose', 'show output of scripts in the console').description('upgrade ghost (backup, download and upgrade)').action(function (options) {
+  (0, _commands.backup)('../backup/', options);
+  (0, _commands.download)('../latest-ghost/', options);
+  (0, _commands.upgrade)('../latest-ghost/', options);
+});
 
-// if no parameter is provided run the whole program
-if (!process.argv.slice(2).length) {
-  (0, _commands.backup)('../backup/', { verbose: true });
-  (0, _commands.download)('../latest-ghost/', { verbose: true });
-  (0, _commands.upgrade)('../latest-ghost/', { verbose: true });
-}
+_commander2.default.parse(process.argv);

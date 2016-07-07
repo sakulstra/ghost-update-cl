@@ -14,6 +14,7 @@ var _utils = require('../utils');
  * @type {string}
  */
 var defaultPath = '../ghost-latest/';
+var defaultUrl = 'https://ghost.org/zip/ghost-latest.zip';
 
 function download(downloadPath, options) {
   if (!which('wget')) {
@@ -23,15 +24,20 @@ function download(downloadPath, options) {
   if (downloadPath === undefined) {
     _logger.logger.warning('downloadPath is undefined so we assume you want to download to ' + defaultPath);
     downloadPath = defaultPath;
-  } else {}
-  // TODO: make sure path ends with a /
-
+  } else if (downloadPath.slice(-1) !== '/') {
+    downloadPath += '/';
+  }
   // TODO: could be solved more intelligent
   if (test('-e', downloadPath)) {
     rm('-R', downloadPath);
   }
   mkdir(downloadPath);
-  exec('wget https://ghost.org/zip/ghost-latest.zip -P ' + downloadPath, { silent: !options.verbose });
+  // define which ghost version to load
+  var sourceUrl = defaultUrl;
+  if (options.sourceUrl !== undefined) {
+    sourceUrl = options.sourceUrl;
+  }
+  exec('wget ' + sourceUrl + ' -O ' + downloadPath + 'ghost-latest.zip', { silent: !options.verbose });
   exec('unzip ' + downloadPath + 'ghost-latest.zip -d ' + downloadPath, { silent: !options.verbose });
   rm(downloadPath + 'ghost-latest.zip');
   var json = (0, _utils.parseJson)(downloadPath);
