@@ -43,3 +43,10 @@ _commander2.default.command('upgrade [pathToLatest]').alias('u').description('up
 });
 
 _commander2.default.parse(process.argv);
+
+// if no parameter is provided run the whole program
+if (!process.argv.slice(2).length) {
+  (0, _commands.backup)('../backup/', { verbose: true });
+  (0, _commands.download)('../latest-ghost/', { verbose: true });
+  (0, _commands.upgrade)('../latest-ghost/', { verbose: true });
+}
